@@ -3,26 +3,28 @@ class PrintEditionItem {
     this.name = name;
     this.releaseDate = releaseDate;
     this.pagesCount = pagesCount;
-    this.state = 100;
+    this._state = 100;
     this.type = null;
   }
 
   fix() {
-    this.state = this.state * 1.5;
+    if (this._state > 0 && this._state < 100) {
+      this._state = this._state * 1.5;
+    }
   }
 
   set state(newState) {
     if (newState < 0) {
-      this.state = 0;
+      this._state = 0;
     } else if (newState > 100) {
-      this.state = 100;
+      this._state = 100;
     } else {
-      this.state = newState;
+      this._state = newState;
     }
   }
 
   get state() {
-    return this.state;
+    return this._state;
   }
 }
 
@@ -92,45 +94,5 @@ class Library {
       }
     }
     return null;
-  }
-}
-
-class Student {
-  constructor(name) {
-    this.name = name;
-    this.marks = {};
-  }
-
-  addMark(mark, subject) {
-    if (mark < 2 || mark > 5) {
-      return;
-    }
-    if (!this.marks[subject]) {
-      this.marks[subject] = [];
-    }
-    this.marks[subject].push(mark);
-  }
-
-  getAverageBySubject(subject) {
-    if (!this.marks[subject]) {
-      return 0;
-    }
-    let sum = 0;
-    for (let mark of this.marks[subject]) {
-      sum += mark;
-    }
-    return sum / this.marks[subject].length;
-  }
-
-  getAverage() {
-    let subjects = Object.keys(this.marks);
-    if (subjects.length === 0) {
-      return 0;
-    }
-    let sum = 0;
-    for (let subject of subjects) {
-      sum += this.getAverageBySubject(subject);
-    }
-    return sum / subjects.length;
   }
 }
